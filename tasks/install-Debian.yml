@@ -1,0 +1,15 @@
+---
+- name: Add Apt key for GoCD
+  apt_key:
+    url: https://download.gocd.org/GOCD-GPG-KEY.asc
+    state: present
+
+- name: Add GoCD apt repo
+  apt_repository:
+    repo: deb https://download.gocd.org /
+    state: present
+  notify:
+    - update package cache
+
+- name: Flush handlers to update apt cache
+  meta: flush_handlers

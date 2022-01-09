@@ -1,0 +1,21 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      deprecation_warnings: false
+      callback_whitelist: timer,profile_tasks,yaml
+    connection:
+      pipelining: true
+  playbooks:
+    prepare: ../_shared/prepare.yml
+    converge: ../_shared/converge.yml
+verifier:
+  name: ansible
