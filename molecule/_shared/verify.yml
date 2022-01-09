@@ -1,0 +1,57 @@
+---
+- name: Verify
+  hosts: all
+  vars:
+    test_gocd_apt_key_url: https://download.gocd.org/GOCD-GPG-KEY.asc
+    test_gocd_apt_repository: deb https://download.gocd.org /
+  tasks:
+  - name: Test GoCD apt key
+    block:
+      - name: Get GoCD apt key status
+        apt_key:
+          url: "{{ test_gocd_apt_key_url }}"
+          state: present
+        check_mode: true
+        register: test_gocd_apt_key_status
+
+      - name: Test that GoCD apt key has been added
+        assert:
+          that:
+            - not test_gocd_apt_key_status.changed
+    when: ansible_os_family == 'Debian'
+
+  - name: Test GoCD repository
+    block:
+      - name: Get GoCD repository status
+        apt_repository:
+          repo: "{{ test_gocd_apt_repository }}"
+          state: present
+        check_mode: true
+        register: test_gocd_apt_repository_status
+
+      - name: Test GoCD repository status
+        assert:
+          that:
+            - not test_gocd_apt_repository_status.changed
+    when: ansible_os_family == 'Debian'
+
+  - name: Gather package facts
+    package_facts:
+
+  - name: Test GoCD server package is installed
+    assert:
+      that:
+        - "'go-server' in ansible_facts.packages"
+
+  - name: Get GoCD server service state
+    service:
+      name: go-server
+      state: started
+      enabled: true
+    check_mode: true
+    register: test_gocd_service_state
+
+  - name: Test GoCD server service state
+    assert:
+      that:
+        - not test_gocd_service_state.changed

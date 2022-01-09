@@ -1,0 +1,15 @@
+galaxy_info:
+  author: David Selders
+  description: Install the Go Continuous Delivery tool.
+  license: BSD-3-Clause
+  role_name: gocd
+  namespace: dselders
+  min_ansible_version: 2.10
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+  galaxy_tags:
+    - development
+    - cd
+dependencies: []

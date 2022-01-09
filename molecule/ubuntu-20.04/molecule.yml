@@ -1,0 +1,9 @@
+---
+platforms:
+  - name: ubuntu-20.04
+    image: geerlingguy/docker-ubuntu2004-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    privileged: true
+    pre_build_image: true

@@ -1,0 +1,15 @@
+---
+- name: GoCD package repository (Debian)
+  include_tasks: install-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Install server
+  package:
+    name: go-server
+    state: present
+
+- name: Ensure go-server is enabled and started
+  service:
+    name: go-server
+    enabled: yes
+    state: started

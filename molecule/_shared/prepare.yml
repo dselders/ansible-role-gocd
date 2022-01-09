@@ -1,0 +1,21 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when:
+        - ansible_distribution == "Ubuntu"
+
+    - name: Add needed packages for Ubuntu
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - gpg
+        - gpg-agent
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04')
