@@ -1,7 +1,18 @@
 ---
 platforms:
-  - name: ubuntu-20.04
+  - name: ubuntu-20.04_server
     image: geerlingguy/docker-ubuntu2004-ansible:latest
+    groups:
+      - gocd_servers
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    privileged: true
+    pre_build_image: true
+  - name: ubuntu-20.04_agent
+    image: geerlingguy/docker-ubuntu2004-ansible:latest
+    groups:
+      - gocd_agents
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: ${MOLECULE_DOCKER_COMMAND:-""}

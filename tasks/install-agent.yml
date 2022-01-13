@@ -1,0 +1,11 @@
+---
+- name: Install agent
+  package:
+    name: go-agent
+    state: present
+
+- name: Ensure go-agent is enabled and started
+  service:
+    name: go-agent
+    enabled: yes
+    state: started

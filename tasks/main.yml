@@ -4,12 +4,9 @@
   when: ansible_os_family == 'Debian'
 
 - name: Install server
-  package:
-    name: go-server
-    state: present
+  include_tasks: install-server.yml
+  when: gocd_server
 
-- name: Ensure go-server is enabled and started
-  service:
-    name: go-server
-    enabled: yes
-    state: started
+- name: Install agent
+  include_tasks: install-agent.yml
+  when: gocd_agent

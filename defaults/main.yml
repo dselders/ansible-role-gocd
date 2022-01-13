@@ -1,0 +1,3 @@
+---
+gocd_server: false
+gocd_agent: false

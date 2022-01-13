@@ -38,20 +38,44 @@
   - name: Gather package facts
     package_facts:
 
-  - name: Test GoCD server package is installed
-    assert:
-      that:
-        - "'go-server' in ansible_facts.packages"
+  - name: GoCD Server
+    block:
+      - name: Test GoCD server package is installed
+        assert:
+          that:
+            - "'go-server' in ansible_facts.packages"
 
-  - name: Get GoCD server service state
-    service:
-      name: go-server
-      state: started
-      enabled: true
-    check_mode: true
-    register: test_gocd_service_state
+      - name: Get GoCD server service state
+        service:
+          name: go-server
+          state: started
+          enabled: true
+        check_mode: true
+        register: test_gocd_server_service_state
 
-  - name: Test GoCD server service state
-    assert:
-      that:
-        - not test_gocd_service_state.changed
+      - name: Test GoCD server service state
+        assert:
+          that:
+            - not test_gocd_server_service_state.changed
+    when: "'gocd_servers' in group_names"
+
+  - name: GoCD Agent
+    block:
+      - name: Test GoCD agent package is installed
+        assert:
+          that:
+            - "'go-agent' in ansible_facts.packages"
+
+      - name: Get GoCD agent service state
+        service:
+          name: go-agent
+          state: started
+          enabled: true
+        check_mode: true
+        register: test_gocd_agent_service_state
+
+      - name: Test GoCD server service state
+        assert:
+          that:
+            - not test_gocd_agent_service_state.changed
+    when: "'gocd_agents' in group_names"

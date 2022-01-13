@@ -17,5 +17,11 @@ provisioner:
   playbooks:
     prepare: ../_shared/prepare.yml
     converge: ../_shared/converge.yml
+  inventory:
+    group_vars:
+      gocd_servers:
+        gocd_server: true
+      gocd_agents:
+        gocd_agent: true
 verifier:
   name: ansible
