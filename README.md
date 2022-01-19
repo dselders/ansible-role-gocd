@@ -14,6 +14,8 @@ Role Variables
 Available variables are listed below, defaults set in `defaults/main.yml`.
 
     gocd_server: false  # set to true to install server
+    gocd_server_plugins_path: /var/lib/go-server/plugins/external
+    gocd_server_plugins: []
     gocd_agent: false   # set to true to install agent
 
 Dependencies
@@ -29,6 +31,8 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: gocd-servers
       vars:
         gocd_server: true
+        gocd_server_plugins:
+          - https://github.com/gocd-contrib/docker-elastic-agents-plugin/releases/download/v3.0.0-245/docker-elastic-agents-3.0.0-245.jar
       roles:
          - role: dselders.gocd
            become: true
