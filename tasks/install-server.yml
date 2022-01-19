@@ -9,3 +9,17 @@
     name: go-server
     enabled: yes
     state: started
+
+- name: Flush hanlders
+  meta: flush_handlers
+
+- name: Wait for plugins path to be created
+  wait_for:
+    path: "{{ gocd_server_plugins_path }}"
+
+- name: Install plugins
+  get_url:
+    dest: "{{ gocd_server_plugins_path }}"
+    url: "{{ item }}"
+  loop: "{{ gocd_server_plugins }}"
+  notify: restart go-server

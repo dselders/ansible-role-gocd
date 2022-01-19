@@ -21,6 +21,8 @@ provisioner:
     group_vars:
       gocd_servers:
         gocd_server: true
+        gocd_server_plugins:
+          - https://github.com/gocd-contrib/docker-elastic-agents-plugin/releases/download/v3.0.0-245/docker-elastic-agents-3.0.0-245.jar
       gocd_agents:
         gocd_agent: true
 verifier:

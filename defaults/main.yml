@@ -1,3 +1,5 @@
 ---
 gocd_server: false
+gocd_server_plugins_path: /var/lib/go-server/plugins/external
+gocd_server_plugins: []
 gocd_agent: false

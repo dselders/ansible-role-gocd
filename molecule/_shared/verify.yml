@@ -4,6 +4,7 @@
   vars:
     test_gocd_apt_key_url: https://download.gocd.org/GOCD-GPG-KEY.asc
     test_gocd_apt_repository: deb https://download.gocd.org /
+    test_gocd_server_plugin_filename: docker-elastic-agents-3.0.0-245.jar
   tasks:
   - name: Test GoCD apt key
     block:
@@ -57,6 +58,17 @@
         assert:
           that:
             - not test_gocd_server_service_state.changed
+
+      - name: Get external plugin information
+        stat:
+          path: "/var/lib/go-server/plugins/external/{{ test_gocd_server_plugin_filename }}"
+        register: test_gocd_server_external_plugin
+
+      - name: Test GoCD external plugin installation
+        assert:
+          that:
+            - test_gocd_server_external_plugin.stat.exists and test_gocd_server_external_plugin.stat.isreg
+
     when: "'gocd_servers' in group_names"
 
   - name: GoCD Agent
